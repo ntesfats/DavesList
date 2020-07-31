@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="base :: metaTags"></div>
+
+    <div th:replace="base :: BootStrapAndMainCSSLinks"></div>
+    <title>List of house</title>
+</head>
+<body>
+
+<div th:replace="base :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2> Welcome</h2>
+
+            <a sec:authorize="isAuthenticated()" th:href="@{/dave/addRoomListing}" style="float: right; display: block;">
+                <button type="button" class="btn btn-success">Add New Room Listing</button>
+            </a>
+
+            <br>
+
+            <p> List of all housing: </p>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Address</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">price</th>
+                        <th scope="col">Un/Rented</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="room : ${rooms}">
+                        <td>[[${room.address}]]</td>
+                        <td>[[${room.city}]]</td>
+                        <td>[[${room.state}]]</td>
+                        <td>[[${room.price}]]</td>
+
+                        <td style="background: red; color: white;" th:if="${room.isRented}">is Rented</td>
+                        <td style="background: greenyellow; color: white;" th:if="${!room.isRented}">Not Rented</td>
+
+                        <td>
+                            <a th:href="@{'/details?id=' + ${room.id}}">View</a>
+                            <a sec:authorize="isAuthenticated()" th:href="@{/dave/update/{id} (id=${room.id})}">Update</a>
+                            <a sec:authorize="isAuthenticated()" th:if="${!room.isRented}" th:href="@{/dave/rentControl/{id}?details=false (id=${room.id})}">Rent Out</a>
+                            <a sec:authorize="isAuthenticated()" th:if="${room.isRented}" th:href="@{/dave/rentControl/{id}?details=false (id=${room.id})}">UnRent</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="base :: BootStrapScripts"></div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="base :: metaTags"></div>
+
+    <div th:replace="base :: BootStrapAndMainCSSLinks"></div>
+    <title>Room Details</title>
+</head>
+<body>
+
+<div th:replace="base :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <th:block th:if="room">
+                <h2>Room Details:</h2>
+
+                Full Address: [[${room.address}]] [[${room.city}]] [[${room.state}]] <br>
+                Price: $[[${room.price}]] <br>
+                IsRented: [[${room.isRented}]] <br>
+                Description:[[${room.description}]] <br>
+                Rules: [[${room.rules}]] <br>
+                Cable: [[${room.cable}]] <br>
+                Wifi: [[${room.wifi}]] <br>
+                PrivateBathroom: [[${room.privateBathroom}]] <br>
+
+                <hr>
+
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/dave/update/{id} (id=${room.id})}">
+                        <button type="button" class="btn btn-warning">Update</button>
+                    </a>
+                    <th:block th:if="${!room.isRented}">
+                        <a th:if="${!room.isRented}" th:href="@{/dave/rentControl/{id}?details=true (id=${room.id})}">
+                            <button type="button" class="btn btn-danger">Rent Out</button>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${room.isRented}">
+                        <a th:if="${room.isRented}" th:href="@{/dave/rentControl/{id}?details=true (id=${room.id})}">
+                            <button type="button" class="btn btn-success">UnRent</button>
+                        </a>
+                    </th:block>
+                </div>
+
+            </th:block>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div th:replace="base :: BootStrapScripts"></div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <div th:replace="base :: metaTags"></div>
+
+    <div th:replace="base :: BootStrapAndMainCSSLinks"></div>
+    <title>[[${submit}]]</title>
+    <style>
+        .tab{
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="base :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Adding new Room Listing: </h2>
+            <hr>
+
+            <form th:action="@{/dave/processRoomListing}" th:object="${room}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                Address: <input type="text" th:field="*{address}">
+                <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span> <br>
+
+                City: <input type="text" th:field="*{city}">
+                <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span> <br>
+
+                State: <input type="text" th:field="*{state}">
+                <span th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></span> <br>
+
+                IsRented:
+                    <input type="radio" class="tab" th:field="*{isRented}" value=true> Rented
+                    <input type="radio" class="tab" th:field="*{isRented}" value=false> UnRented <br>
+
+                Price: <input type="number" th:field="*{price}">
+                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span> <br>
+
+                Description: <input type="text" th:field="*{description}">
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span> <br>
+
+                Rules: <input type="text" th:field="*{rules}">
+                <span th:if="${#fields.hasErrors('rules')}" th:errors="*{rules}"></span> <br>
+
+                Cable: <br>
+                    <input type="radio" class="tab" th:field="*{cable}" value="None"> None
+                    <input type="radio" class="tab" th:field="*{cable}" value="Basic"> Basic
+                    <input type="radio" class="tab" th:field="*{cable}" value="Premium"> Premium <br>
+
+                Wifi: <br>
+                    <input type="radio" class="tab" th:field="*{wifi}" value=true> Yes
+                    <input type="radio" class="tab" th:field="*{wifi}" value=false> No <br>
+
+                Private Bathroom: <br>
+                    <input type="radio" class="tab" th:field="*{privateBathroom}" value=true> Yes
+                    <input type="radio" class="tab" th:field="*{privateBathroom}" value=false> No <br> <br>
+
+                <input type="submit" th:value="${submit}">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:replace="base :: BootStrapScripts"></div>
+</body>
+</html>
